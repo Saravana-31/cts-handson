@@ -1,0 +1,11 @@
+create database bankdb;
+use bankdb;
+create table customers(CustomerId int primary key,CustomerName varchar(50),age int,Balance decimal(10,2),IsVIP boolean default false);
+create table loans(  LoanID INT PRIMARY KEY,CustomerId INT,LoanAmount DECIMAL(10,2),InterestRate DECIMAL(4,2),DueDate DATE,FOREIGN KEY (CustomerID) REFERENCES Customers(CustomerID));
+INSERT INTO customers VALUES(101,'Ramesh',65,15000,FALSE),(102,'Suresh',45,8000,FALSE),(103,'Priya',70,22000,FALSE),(104,'Karthik',35,5000,FALSE),(105,'Meena',62,12000,FALSE),(106,'Arun',28,3000,FALSE);
+INSERT INTO Loans VALUES (201,101,500000,9.50,CURDATE()+INTERVAL 15 DAY),(202,102,300000,10.25,CURDATE()+INTERVAL 45 DAY),(203,103,700000,8.75,CURDATE()+INTERVAL 10 DAY),(204,104,200000,11.00,CURDATE()+INTERVAL 60 DAY),(205,105,400000,9.00,CURDATE()+INTERVAL 20 DAY),(206,106,100000,12.00,CURDATE()+INTERVAL 90 DAY);
+select * from customers;
+select * from loans;
+update loans l join customers c on l.CustomerId=c.CustomerId set l.InterestRate=l.InterestRate-0.1 where c.Age>60;
+update customers set IsVIP=true where balance>10000;
+select concat("Hi Dear ",c.customername,"! Your Loan is due on ",l.duedate) as reminder from customers c join loans l on c.customeridl.customerid WHERE l.DueDate <= CURDATE() + INTERVAL 30 DAY;	
